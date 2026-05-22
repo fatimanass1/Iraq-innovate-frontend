@@ -8,6 +8,8 @@ import { DEFAULT_AUTH_REDIRECT, REDIRECT_QUERY_PARAM } from "@/constants/routes"
 import { useAuthStore } from "@/store/auth.store";
 import { loginFormSchema, type LoginFormValues } from "../validation/login.schema";
 
+const DEMO_AUTH_TOKEN = "demo-token";
+
 export function useLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -29,7 +31,7 @@ export function useLoginForm() {
         name: "Demo User",
         role: "admin",
       },
-      `demo-token-${Date.now()}`,
+      DEMO_AUTH_TOKEN,
     );
     toast.success("Signed in successfully");
 

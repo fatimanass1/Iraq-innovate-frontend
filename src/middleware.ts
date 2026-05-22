@@ -76,7 +76,7 @@ function hasAuthSession(request: NextRequest): boolean {
  * Future: token refresh gate.
  * Return true when a refresh flow should run before continuing the request.
  */
-function shouldRefreshSession(_request: NextRequest): boolean {
+function shouldRefreshSession(): boolean {
   return false;
 }
 
@@ -84,10 +84,7 @@ function shouldRefreshSession(_request: NextRequest): boolean {
  * Future: role-based redirect (e.g. admin-only routes).
  * Return a NextResponse to redirect, or null to continue.
  */
-function getRoleBasedRedirect(
-  _request: NextRequest,
-  _ctx: MiddlewareContext,
-): NextResponse | null {
+function getRoleBasedRedirect(): NextResponse | null {
   return null;
 }
 
@@ -95,10 +92,7 @@ function getRoleBasedRedirect(
  * Future: admin route protection.
  * Extend PROTECTED_ROUTE_PREFIXES or add role checks here when needed.
  */
-function getAdminRouteRedirect(
-  _request: NextRequest,
-  _ctx: MiddlewareContext,
-): NextResponse | null {
+function getAdminRouteRedirect(): NextResponse | null {
   return null;
 }
 
@@ -140,10 +134,7 @@ function redirectToLogin(
   return NextResponse.redirect(url);
 }
 
-function redirectAuthenticatedUser(
-  request: NextRequest,
-  _ctx: MiddlewareContext,
-): NextResponse {
+function redirectAuthenticatedUser(request: NextRequest): NextResponse {
   const redirectParam = request.nextUrl.searchParams.get(REDIRECT_QUERY_PARAM);
   const targetPath =
     sanitizeRedirectPath(redirectParam) ?? DEFAULT_AUTH_REDIRECT;
@@ -170,7 +161,7 @@ export function middleware(request: NextRequest) {
   const ctx = createContext(request);
 
   // --- Future: refresh token handling (placeholder) ---
-  if (shouldRefreshSession(request)) {
+  if (shouldRefreshSession()) {
     // Implement refresh redirect/rewrite here when token strategy is defined.
   }
 
@@ -181,15 +172,15 @@ export function middleware(request: NextRequest) {
 
   // --- Auth routes: redirect authenticated users away from login/register ---
   if (isAuthRoute(ctx.normalizedPath) && ctx.isAuthenticated) {
-    return redirectAuthenticatedUser(request, ctx);
+    return redirectAuthenticatedUser(request);
   }
 
   // --- Future: role-based redirects (placeholder) ---
-  const roleRedirect = getRoleBasedRedirect(request, ctx);
+  const roleRedirect = getRoleBasedRedirect();
   if (roleRedirect) return roleRedirect;
 
   // --- Future: admin route protection (placeholder) ---
-  const adminRedirect = getAdminRouteRedirect(request, ctx);
+  const adminRedirect = getAdminRouteRedirect();
   if (adminRedirect) return adminRedirect;
 
   // --- Continue request with locale header ---
