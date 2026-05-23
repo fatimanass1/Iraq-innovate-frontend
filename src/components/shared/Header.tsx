@@ -1,16 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Button, Container } from "@/components/ui";
+import { Container } from "@/components/ui";
 import { NAV_LINKS } from "@/constants/app";
-import { ROUTES } from "@/constants/routes";
-import { useUiStore } from "@/store/ui.store";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Header() {
-  const { isMobileMenuOpen, setMobileMenuOpen, toggleMobileMenu } = useUiStore();
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/80 backdrop-blur-md">
@@ -31,25 +30,14 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Link href={ROUTES.LOGIN}>
-            <Button variant="secondary" size="sm" className="hidden sm:inline-flex">
-              Sign in
-            </Button>
-          </Link>
-          <Link href={ROUTES.DASHBOARD}>
-            <Button size="sm" className="hidden sm:inline-flex">
-              Dashboard
-            </Button>
-          </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={toggleMobileMenu}
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg hover:bg-muted md:hidden"
+            onClick={() => setMobileMenuOpen((open) => !open)}
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+          </button>
         </div>
       </Container>
 
@@ -66,9 +54,6 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-            <Link href={ROUTES.LOGIN} onClick={() => setMobileMenuOpen(false)}>
-              Sign in
-            </Link>
           </Container>
         </div>
       )}

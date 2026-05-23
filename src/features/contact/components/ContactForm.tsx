@@ -1,7 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui";
-import { FormField, TextInput } from "@/components/forms";
+import { Button, FormField, Input } from "@/components/ui";
 import { useContactForm } from "../hooks/use-contact-form";
 
 export function ContactForm() {
@@ -15,19 +14,20 @@ export function ContactForm() {
     <form onSubmit={onSubmit} className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <FormField label="Full name" htmlFor="name" error={errors.name?.message}>
-          <TextInput id="name" placeholder="Your name" {...register("name")} />
+          <Input id="name" placeholder="Your name" error={errors.name?.message} {...register("name")} />
         </FormField>
         <FormField label="Email" htmlFor="email" error={errors.email?.message}>
-          <TextInput
+          <Input
             id="email"
             type="email"
             placeholder="you@company.com"
+            error={errors.email?.message}
             {...register("email")}
           />
         </FormField>
       </div>
       <FormField label="Company" htmlFor="company" error={errors.company?.message}>
-        <TextInput id="company" placeholder="Company (optional)" {...register("company")} />
+        <Input id="company" placeholder="Company (optional)" {...register("company")} />
       </FormField>
       <FormField label="Message" htmlFor="message" error={errors.message?.message}>
         <textarea

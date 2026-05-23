@@ -10,25 +10,11 @@ export const APP_CONFIG = {
   TIMEOUT: API_CONFIG.TIMEOUT,
 } as const;
 
-export const NAV_LINKS = [
-  { label: "Services", href: "#services" },
-  { label: "Stats", href: "#stats" },
-  { label: "Testimonials", href: "#testimonials" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
-] as const;
+export const NAV_LINKS = [{ label: "Contact", href: "#contact" }] as const;
 
 export const FOOTER_LINKS = {
-  product: [
-    { label: "Features", href: "#services" },
-    { label: "Pricing", href: "#" },
-    { label: "FAQ", href: "#faq" },
-  ],
-  company: [
-    { label: "About", href: "#" },
-    { label: "Contact", href: "#contact" },
-    { label: "Careers", href: "#" },
-  ],
+  product: [{ label: "Contact", href: "#contact" }],
+  company: [{ label: "About", href: "#" }],
   legal: [
     { label: "Privacy", href: "#" },
     { label: "Terms", href: "#" },
