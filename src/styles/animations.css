@@ -17,6 +17,74 @@
   }
 }
 
+@keyframes hero-dot-drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(14px, -22px, 0);
+  }
+}
+
+@keyframes hero-dot-drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  33% {
+    transform: translate3d(-18px, -10px, 0);
+  }
+  66% {
+    transform: translate3d(12px, -20px, 0);
+  }
+}
+
+@keyframes hero-dot-drift-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-14px, 18px, 0);
+  }
+}
+
+@keyframes hero-dot-drift-d {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40% {
+    transform: translate3d(20px, 10px, 0);
+  }
+  80% {
+    transform: translate3d(-10px, -18px, 0);
+  }
+}
+
+@keyframes hero-dot-drift-e {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-22px, -12px, 0);
+  }
+}
+
+@keyframes hero-dot-breathe {
+  0%,
+  100% {
+    filter: brightness(0.88);
+    opacity: 0.82;
+  }
+  50% {
+    filter: brightness(1.16);
+    opacity: 1;
+  }
+}
+
 @layer utilities {
   .animate-shimmer {
     background: linear-gradient(
@@ -31,5 +99,66 @@
 
   .animate-float {
     animation: float 4s ease-in-out infinite;
+  }
+
+  .animate-hero-dot-a {
+    animation: hero-dot-drift-a 9s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-hero-dot-b {
+    animation: hero-dot-drift-b 7s ease-in-out infinite;
+    animation-delay: -2s;
+    will-change: transform;
+  }
+
+  .animate-hero-dot-c {
+    animation: hero-dot-drift-c 10s ease-in-out infinite;
+    animation-delay: -4s;
+    will-change: transform;
+  }
+
+  .animate-hero-dot-d {
+    animation: hero-dot-drift-d 6s ease-in-out infinite;
+    animation-delay: -1s;
+    will-change: transform;
+  }
+
+  .animate-hero-dot-e {
+    animation: hero-dot-drift-e 8s ease-in-out infinite;
+    animation-delay: -5s;
+    will-change: transform;
+  }
+
+  .animate-hero-dot-breathe {
+    animation: hero-dot-breathe 7s ease-in-out infinite;
+    will-change: filter, opacity;
+  }
+
+  .animate-hero-dot-breathe-delay-1 {
+    animation-delay: -2s;
+  }
+
+  .animate-hero-dot-breathe-delay-2 {
+    animation-delay: -4s;
+  }
+
+  .animate-hero-dot-breathe-delay-3 {
+    animation-delay: -6s;
+  }
+
+  .animate-hero-dot-breathe-delay-4 {
+    animation-delay: -8s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-hero-dot-a,
+    .animate-hero-dot-b,
+    .animate-hero-dot-c,
+    .animate-hero-dot-d,
+    .animate-hero-dot-e,
+    .animate-hero-dot-breathe {
+      animation: none;
+    }
   }
 }
