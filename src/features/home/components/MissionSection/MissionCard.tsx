@@ -56,7 +56,7 @@ export function MissionCard() {
           />
         </div>
 
-        <div className="absolute -bottom-12 -right-4 z-[1] translate-x-12 translate-y-16 sm:-bottom-10 sm:-right-3 sm:translate-x-14 sm:translate-y-14">
+        <div className="absolute -bottom-12 -right-4 z-[1] hidden translate-x-12 translate-y-16 sm:block sm:-bottom-10 sm:-right-3 sm:translate-x-14 sm:translate-y-14">
           <Image
             src="/home/2025badge.png"
             alt=""

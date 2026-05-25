@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Cairo, Outfit } from "next/font/google";
 import { Container } from "@/components/shared";
+import { SECTION_NAV_ITEMS } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
 
 const cairo = Cairo({
@@ -114,7 +115,26 @@ export function FooterCTA() {
         </div>
 
         <div className="border-t border-solid border-[rgba(255,255,255,0.05)]">
-          <div className="flex flex-col items-center justify-between gap-5 py-6 sm:flex-row sm:gap-6 sm:py-7">
+          <nav
+            aria-label="Footer navigation"
+            className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-6"
+          >
+            {SECTION_NAV_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  outfit.className,
+                  "text-sm font-medium text-[rgba(255,255,255,0.55)] transition-colors duration-300",
+                  "hover:text-[#A8CF45] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A8CF45]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#010B18]",
+                )}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex flex-col items-center justify-between gap-5 pb-6 sm:flex-row sm:gap-6 sm:pb-7">
             <div className="flex items-center gap-3 sm:justify-self-start">
               <Image
                 src="/logo1.png"

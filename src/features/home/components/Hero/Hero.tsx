@@ -346,7 +346,8 @@ function HeroStats() {
 export function Hero() {
   return (
     <section
-      className="relative min-h-[920px] overflow-hidden bg-[#010B18]"
+      id="innovation-areas"
+      className="relative min-h-[920px] scroll-mt-32 overflow-hidden bg-[#010B18]"
       aria-labelledby="hero-title"
     >
       <div className="absolute inset-0 z-0">

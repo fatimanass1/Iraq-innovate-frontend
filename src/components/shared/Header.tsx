@@ -5,16 +5,10 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Container } from "./Container";
+import { SECTION_NAV_ITEMS } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
 
 const SCROLL_THRESHOLD = 12;
-
-const NAV_ITEMS = [
-  { label: "About", href: "#about" },
-  { label: "Innovation Areas", href: "#innovation-areas" },
-  { label: "Journey", href: "#journey" },
-  { label: "FAQ", href: "#faq" },
-] as const;
 
 interface NavLinkProps {
   href: string;
@@ -149,7 +143,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         </div>
 
         <nav aria-label="Mobile primary navigation" className="flex flex-col gap-5">
-          {NAV_ITEMS.map((item) => (
+          {SECTION_NAV_ITEMS.map((item) => (
             <NavLink
               key={item.href}
               href={item.href}
@@ -224,7 +218,7 @@ export function Header() {
           className="pointer-events-none absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 lg:flex"
         >
           <div className="pointer-events-auto flex items-center gap-10">
-            {NAV_ITEMS.map((item) => (
+            {SECTION_NAV_ITEMS.map((item) => (
               <NavLink key={item.href} href={item.href} label={item.label} />
             ))}
           </div>
