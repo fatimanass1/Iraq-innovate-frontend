@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { APP_CONFIG } from "@/constants/app";
+import { APP_CONFIG } from "@/shared/constants/app";
 import { AppProviders } from "@/app/providers";
 import "@/styles/globals.css";
 
@@ -20,6 +20,11 @@ export const metadata: Metadata = {
     template: `%s | ${APP_CONFIG.NAME}`,
   },
   description: APP_CONFIG.DESCRIPTION,
+  icons: {
+    icon: [{ url: "/logo1.png", type: "image/png" }],
+    shortcut: "/logo1.png",
+    apple: [{ url: "/logo1.png", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({

@@ -2,14 +2,15 @@
 
 import { useId, useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/utils";
 import { cairo } from "./fonts";
 
 interface FaqItemProps {
   question: string;
+  answer: readonly string[];
 }
 
-export function FaqItem({ question }: FaqItemProps) {
+export function FaqItem({ question, answer }: FaqItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   const panelId = useId();
 
@@ -61,9 +62,18 @@ export function FaqItem({ question }: FaqItemProps) {
             className="px-6 pb-6 pt-5 sm:px-8"
             style={{ borderTop: "1px solid rgba(7, 8, 12, 0.04)" }}
             dir="rtl"
+            lang="ar"
           >
-            {/* Answer area intentionally empty */}
-            <div className="min-h-[48px]" aria-hidden="true" />
+            <div
+              className={cn(
+                cairo.className,
+                "space-y-4 text-right text-[15px] font-normal leading-[1.85] text-[rgba(1,11,24,0.72)] sm:text-[16px] sm:leading-[1.9]",
+              )}
+            >
+              {answer.map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
           </div>
         </div>
       </div>

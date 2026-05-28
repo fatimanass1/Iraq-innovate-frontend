@@ -1,0 +1,48 @@
+export const AUTH_SIDEBAR = {
+  brandTitle: "INNOVATE IRAQ",
+  brandSubtitle: "العراق يبتكر 2026",
+  title: "Register your account",
+  subtitle: "سجل حسابك",
+  logoArabic: "العراق يبتكر",
+  logoEnglish: "INNOVATE IRAQ",
+  description: "منصة وطنية للمشاريع والأفكار الريادية المدعومة بالتقنية",
+  footer: "NATIONAL INNOVATION PLATFORM · IRAQ 2026",
+} as const;
+
+export const SIGN_IN_CONTENT = {
+  eyebrow: "WELCOME BACK",
+  title: "Sign In",
+  subtitle: "سجل الدخول إلى حسابك",
+  emailLabel: "البريد الإلكتروني أو رقم الهاتف",
+  emailPlaceholder: "you@example.com أو 07701234567",
+  passwordLabel: "كلمة المرور",
+  passwordPlaceholder: "أدخل كلمة المرور الخاصة بك",
+  rememberMe: "ابقئ قيد التسجيل",
+  forgotPassword: "نسيت كلمة المرور؟",
+  submit: "تسجيل الدخول",
+  noAccount: "ليس لديك حساب؟",
+  createAccount: "إنشاء حساب",
+} as const;
+
+export const SIGN_UP_CONTENT = {
+  eyebrow: "JOIN THE PLATFORM",
+  title: "Create Account",
+  subtitle: "إنشاء حساب جديد",
+  fullNameLabel: "الاسم الكامل",
+  fullNamePlaceholder: "اسمك الكامل",
+  emailLabel: "عنوان البريد الإلكتروني",
+  emailPlaceholder: "you@example.com",
+  phoneLabel: "رقم الهاتف",
+  phonePlaceholder: "077XXXXXXXX",
+  passwordLabel: "كلمة المرور",
+  passwordPlaceholder: "8+ أحرف",
+  confirmLabel: "تأكيد",
+  confirmPlaceholder: "أعد إدخال كلمة المرور",
+  universityLabel: "الجامعة / الكلية",
+  universityOptional: "(اختياري)",
+  universityPlaceholder: "مثل: جامعة بغداد",
+  termsLabel: "أوافق على شروط الخدمة وسياسة الخصوصية الخاصة بـ Innovate Iraq",
+  submit: "إنشاء حساب",
+  hasAccount: "هل لديك حساب بالفعل؟",
+  signIn: "تسجيل الدخول",
+} as const;

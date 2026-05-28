@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FileQuestion } from "lucide-react";
-import { Button } from "@/components/ui";
-import { ROUTES } from "@/constants/routes";
+import { Button } from "@/shared/components/ui";
+import { ROUTES } from "@/shared/constants/routes";
 
 export default function NotFound() {
   return (

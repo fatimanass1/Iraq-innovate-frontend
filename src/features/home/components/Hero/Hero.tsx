@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { HeroCTAs } from "./HeroCTAs";
+import { HeroAnimatedContent } from "./HeroAnimatedContent";
 import { Cairo, Outfit } from "next/font/google";
-import { Container } from "@/components/shared";
-import { cn } from "@/lib/utils";
+import { Container } from "@/shared/components/layout";
+import { cn } from "@/shared/utils/utils";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -16,12 +16,6 @@ const outfit = Outfit({
   weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
-
-const STATS = [
-  { value: "500+", label: "مبتكر" },
-  { value: "8", label: "مجالات" },
-  { value: "18", label: "مشروع" },
-] as const;
 
 const FLOATING_DOTS = [
   {
@@ -283,62 +277,45 @@ function HeroDescription() {
   );
 }
 
-function HeroCTAs() {
+function HeroPartners() {
   return (
-    <div className="mb-20 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5">
-      <Link
-        href="#join"
-        dir="rtl"
-        lang="ar"
-        className={cn(
-          outfit.className,
-          "inline-flex h-[3.25rem] items-center justify-center gap-2.5 rounded-full bg-[#A8CF45] px-10 text-[17px] font-semibold text-[#010B18]",
-          "shadow-[0_4px_20px_rgba(168,207,69,0.4)] transition-all duration-300 ease-out",
-          "hover:scale-[1.03] hover:bg-[#b5d84f] hover:shadow-[0_6px_28px_rgba(168,207,69,0.5)]",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A8CF45]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#010B18]",
-        )}
-      >
-        <span>شارك مشروعك</span>
-        <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
-      </Link>
-      <Link
-        href="#track"
-        dir="rtl"
-        lang="ar"
-        className={cn(
-          outfit.className,
-          "inline-flex h-[3.25rem] items-center justify-center rounded-full border border-solid border-[rgba(255,255,255,0.15)] bg-transparent px-10 text-[17px] font-medium text-white",
-          "transition-all duration-300 ease-out",
-          "hover:scale-[1.03] hover:bg-[#A8CF45]/10",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A8CF45]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#010B18]",
-        )}
-      >
-        تتبع مشروعك
-      </Link>
-    </div>
-  );
-}
+    <div
+    className={cn(
+      "mx-auto -mt-16 flex w-full max-w-[620px] items-center justify-center gap-1 px-2",
+      "sm:-mt-20 sm:max-w-[700px] sm:gap-2",
+      "md:-mt-24 md:max-w-[780px] md:gap-3",
+    )}
+      aria-label="Hero partners"
+    >
+      <div className="relative h-[44px] w-[176px] sm:h-[52px] sm:w-[220px] md:h-[64px] md:w-[286px]">
+        <Image
+          src="/home/SasLogo.png"
+          alt="Simple Applicable Solutions"
+          fill
+          sizes="(max-width: 640px) 176px, (max-width: 768px) 220px, 286px"
+          className="object-contain opacity-90 drop-shadow-[0_0_12px_rgba(255,255,255,0.12)]"
+        />
+      </div>
 
-function HeroStats() {
-  return (
-    <div className="mx-auto grid w-full max-w-3xl grid-cols-3 gap-6 sm:gap-12 md:gap-16">
-      {STATS.map((stat) => (
-        <div key={stat.label} className="flex flex-col items-center">
-          <p className="w-full text-center text-3xl font-extrabold text-[#A8CF45] sm:text-4xl md:text-[2.75rem] md:leading-none">
-            {stat.value}
-          </p>
-          <p
-            className={cn(
-              outfit.className,
-              "mt-2.5 w-full text-center text-sm text-[rgba(255,255,255,0.7)] sm:text-base",
-            )}
-            dir="rtl"
-            lang="ar"
-          >
-            {stat.label}
-          </p>
-        </div>
-      ))}
+      <div className="relative h-[42px] w-[18px] sm:h-[52px] sm:w-[20px] md:h-[64px] md:w-[22px]">
+        <Image
+          src="/home/lines.png"
+          alt=""
+          fill
+          sizes="22px"
+          className="object-contain opacity-80 mix-blend-screen"
+        />
+      </div>
+
+      <div className="relative h-[44px] w-[176px] sm:h-[52px] sm:w-[220px] md:h-[64px] md:w-[286px]">
+        <Image
+          src="/home/iraqLogo.png"
+          alt="Innovate Iraq"
+          fill
+          sizes="(max-width: 640px) 176px, (max-width: 768px) 220px, 286px"
+          className="object-contain opacity-92 drop-shadow-[0_0_14px_rgba(168,207,69,0.2)]"
+        />
+      </div>
     </div>
   );
 }
@@ -365,18 +342,17 @@ export function Hero() {
       <HeroBottomShadow />
 
       <Container className="relative z-10 flex min-h-[920px] flex-col items-center pb-36 pt-28 text-center sm:pt-32 md:pb-40">
-        <div className="flex w-full flex-col items-center">
-          <HeroBadge />
-          <div id="hero-title">
-            <HeroTitle />
-          </div>
-          <HeroDescription />
-          <HeroCTAs />
-        </div>
-
-        <div className="mt-auto flex w-full justify-center pt-10">
-          <HeroStats />
-        </div>
+        <HeroAnimatedContent
+          badge={<HeroBadge />}
+          title={
+            <div id="hero-title">
+              <HeroTitle />
+            </div>
+          }
+          description={<HeroDescription />}
+          ctas={<HeroCTAs />}
+          partners={<HeroPartners />}
+        />
       </Container>
     </section>
   );

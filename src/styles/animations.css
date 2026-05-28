@@ -73,6 +73,16 @@
   }
 }
 
+@keyframes auth-star-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes hero-dot-breathe {
   0%,
   100% {
@@ -151,13 +161,18 @@
     animation-delay: -8s;
   }
 
+  .animate-auth-star-rotate {
+    animation: auth-star-rotate 24s linear infinite;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-hero-dot-a,
     .animate-hero-dot-b,
     .animate-hero-dot-c,
     .animate-hero-dot-d,
     .animate-hero-dot-e,
-    .animate-hero-dot-breathe {
+    .animate-hero-dot-breathe,
+    .animate-auth-star-rotate {
       animation: none;
     }
   }

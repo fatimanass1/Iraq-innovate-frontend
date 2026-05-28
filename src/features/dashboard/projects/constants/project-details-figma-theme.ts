@@ -1,0 +1,22 @@
+/** Figma Project Details / Review page tokens */
+export const PROJECT_DETAILS_FIGMA = {
+  pageBg: "#F8FAF3",
+  heroBg: "#010B18",
+  cardBg: "#FFFFFF",
+  accent: "#A8CF45",
+  accentDark: "#7BA832",
+  accentSoft: "rgba(168,207,69,0.14)",
+  accentGlow: "rgba(168,207,69,0.32)",
+  textPrimary: "#010B18",
+  textMuted: "rgba(1,11,24,0.48)",
+  textOnDark: "#FFFFFF",
+  textOnDarkMuted: "rgba(255,255,255,0.62)",
+  borderSoft: "rgba(220,229,203,0.55)",
+  divider: "rgba(220,229,203,0.38)",
+  heroDivider: "rgba(255,255,255,0.1)",
+  heroRadius: 24,
+  cardRadius: 20,
+  pillRadius: 999,
+  shadowCard: "0 4px 24px rgba(1, 11, 24, 0.05)",
+  shadowHero: "0 12px 40px rgba(1, 11, 24, 0.18)",
+} as const;

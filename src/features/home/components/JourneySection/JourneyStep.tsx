@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/utils";
 import { cairo, outfit } from "./fonts";
 import type { JourneyStepData } from "./journeySteps";
 

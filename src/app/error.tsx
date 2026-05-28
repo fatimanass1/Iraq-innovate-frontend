@@ -3,8 +3,8 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
-import { Button } from "@/components/ui";
-import { ROUTES } from "@/constants/routes";
+import { Button } from "@/shared/components/ui";
+import { ROUTES } from "@/shared/constants/routes";
 
 interface ErrorProps {
   error: Error & { digest?: string };

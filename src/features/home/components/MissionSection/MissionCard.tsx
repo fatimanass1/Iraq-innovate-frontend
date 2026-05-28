@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Zap } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { RevealImage } from "@/shared/animations";
+import { cn } from "@/shared/utils/utils";
 import { cairo, outfit } from "./fonts";
 import { ProgressBar } from "./ProgressBar";
 
@@ -42,21 +43,11 @@ export function MissionCard() {
         </p>
 
         <div className="relative z-10 mt-auto space-y-5 pt-8 sm:space-y-6 sm:pt-10">
-          <ProgressBar
-            label="National Coverage"
-            value={75}
-            fillWidthClass="w-[75%]"
-            dotPositionClass="left-[75%]"
-          />
-          <ProgressBar
-            label="Mentor Network"
-            value={88}
-            fillWidthClass="w-[88%]"
-            dotPositionClass="left-[88%]"
-          />
+          <ProgressBar label="National Coverage" value={75} />
+          <ProgressBar label="Mentor Network" value={88} />
         </div>
 
-        <div className="absolute -bottom-12 -right-4 z-[1] hidden translate-x-12 translate-y-16 sm:block sm:-bottom-10 sm:-right-3 sm:translate-x-14 sm:translate-y-14">
+        <RevealImage className="absolute -bottom-12 -right-4 z-[1] hidden translate-x-12 translate-y-16 sm:block sm:-bottom-10 sm:-right-3 sm:translate-x-14 sm:translate-y-14">
           <Image
             src="/home/2025badge.png"
             alt=""
@@ -64,7 +55,7 @@ export function MissionCard() {
             height={138}
             className="h-[138px] w-[155.86px] drop-shadow-[0_12px_28px_rgba(0,0,0,0.16)]"
           />
-        </div>
+        </RevealImage>
       </div>
     </div>
   );

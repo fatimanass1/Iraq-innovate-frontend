@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { RevealItem, RevealStagger } from "@/shared/animations";
+import { cn } from "@/shared/utils/utils";
 import { cairo, outfit } from "./fonts";
 
 const FEATURES = [
@@ -59,9 +60,14 @@ export function MissionContent() {
         الذي تُدرك فيه هذه القدرة، وتُعززها، وتُطلقها على الساحة العالمية.
       </p>
 
-      <ul className="ml-auto max-w-[34rem] space-y-5" dir="rtl">
+      <RevealStagger
+        as="ul"
+        className="ml-auto max-w-[34rem] space-y-5"
+        stagger={0.08}
+        dir="rtl"
+      >
         {FEATURES.map((item) => (
-          <li key={item} className="flex items-start gap-3.5 text-right">
+          <RevealItem as="li" key={item} className="flex items-start gap-3.5 text-right">
             <Image
               src="/home/CountDot.png"
               alt=""
@@ -75,12 +81,13 @@ export function MissionContent() {
                 "flex-1 text-[18px] font-medium leading-[1.75] text-[rgba(1,11,24,0.65)]",
               )}
               lang="ar"
+              dir="rtl"
             >
               {item}
             </span>
-          </li>
+          </RevealItem>
         ))}
-      </ul>
+      </RevealStagger>
     </div>
   );
 }

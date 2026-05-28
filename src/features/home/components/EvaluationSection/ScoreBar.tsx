@@ -1,4 +1,7 @@
-import { cn } from "@/lib/utils";
+"use client";
+
+import { AnimatedProgress } from "@/shared/animations";
+import { cn } from "@/shared/utils/utils";
 import { cairo, outfit } from "./fonts";
 import type { ScoringCriterion } from "./scoringCriteria";
 
@@ -44,14 +47,13 @@ export function ScoreBar({ criterion }: ScoreBarProps) {
       </div>
 
       <div className="h-[8px] w-full overflow-hidden rounded-full bg-[rgba(255,255,255,0.08)] xl:w-[593px]">
-        <div
-          className="h-full rounded-full bg-[#A8CF45] shadow-[0_0_12px_rgba(168,207,69,0.32)]"
-          style={{ width: `${fillPercent}%` }}
-          role="progressbar"
+        <AnimatedProgress
+          value={fillPercent}
+          className="bg-[#A8CF45] shadow-[0_0_12px_rgba(168,207,69,0.32)]"
+          aria-label={criterion.labelEn}
           aria-valuenow={criterion.score}
           aria-valuemin={0}
           aria-valuemax={criterion.scoreMax}
-          aria-label={criterion.labelEn}
         />
       </div>
     </div>

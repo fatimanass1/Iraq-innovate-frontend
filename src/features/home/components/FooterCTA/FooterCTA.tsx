@@ -1,10 +1,13 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Cairo, Outfit } from "next/font/google";
-import { Container } from "@/components/shared";
-import { SECTION_NAV_ITEMS } from "@/constants/navigation";
-import { cn } from "@/lib/utils";
+import { Container } from "@/shared/components/layout";
+import { RevealItem, RevealStagger } from "@/shared/animations";
+import { VIEWPORT_PAGE_END } from "@/shared/animations/constants";
+import { useProtectedNavigation } from "@/features/auth/hooks/useProtectedNavigation";
+import { cn } from "@/shared/utils/utils";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -42,6 +45,8 @@ function FooterCTABackground() {
 }
 
 export function FooterCTA() {
+  const { navigateToProjectSubmit } = useProtectedNavigation();
+
   return (
     <section
       className="relative overflow-hidden bg-[#010B18]"
@@ -52,7 +57,12 @@ export function FooterCTA() {
       </div>
 
       <Container className="relative z-10">
-        <div className="flex flex-col items-center py-24 text-center sm:py-28 md:py-32 lg:py-36">
+        <RevealStagger
+          className="flex flex-col items-center py-24 text-center sm:py-28 md:py-32 lg:py-36"
+          amount={VIEWPORT_PAGE_END.amount}
+          margin={VIEWPORT_PAGE_END.margin}
+        >
+          <RevealItem>
           <p
             className={cn(
               outfit.className,
@@ -61,7 +71,9 @@ export function FooterCTA() {
           >
             THE TIME IS NOW
           </p>
+          </RevealItem>
 
+          <RevealItem>
           <h2
             id="footer-cta-heading"
             className={cn(
@@ -74,7 +86,9 @@ export function FooterCTA() {
               Into Impact.
             </span>
           </h2>
+          </RevealItem>
 
+          <RevealItem>
           <p
             className={cn(
               cairo.className,
@@ -86,9 +100,12 @@ export function FooterCTA() {
             انضم إلى مئات المبتكرين العراقيين الذين يبنون المستقبل بالفعل. فكرتك تستحق منصة
             عالمية.
           </p>
+          </RevealItem>
 
-          <Link
-            href="#join"
+          <RevealItem>
+          <button
+            type="button"
+            onClick={navigateToProjectSubmit}
             dir="rtl"
             lang="ar"
             className={cn(
@@ -101,9 +118,10 @@ export function FooterCTA() {
           >
             <span>شارك مشروعك الآن</span>
             <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
-          </Link>
+          </button>
+          </RevealItem>
 
-          <div className="mt-8 flex justify-center sm:mt-10">
+          <RevealItem className="mt-8 flex justify-center sm:mt-10" preset="scale-soft">
             <Image
               src="/footerdots.png"
               alt=""
@@ -111,30 +129,11 @@ export function FooterCTA() {
               height={52}
               className="h-auto w-[440px] max-w-full opacity-80 sm:w-[520px]"
             />
-          </div>
-        </div>
+          </RevealItem>
+        </RevealStagger>
 
         <div className="border-t border-solid border-[rgba(255,255,255,0.05)]">
-          <nav
-            aria-label="Footer navigation"
-            className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-6"
-          >
-            {SECTION_NAV_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  outfit.className,
-                  "text-sm font-medium text-[rgba(255,255,255,0.55)] transition-colors duration-300",
-                  "hover:text-[#A8CF45] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A8CF45]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#010B18]",
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex flex-col items-center justify-between gap-5 pb-6 sm:flex-row sm:gap-6 sm:pb-7">
+          <div className="flex flex-col items-center justify-between gap-5 py-6 sm:flex-row sm:gap-6 sm:pb-7">
             <div className="flex items-center gap-3 sm:justify-self-start">
               <Image
                 src="/logo1.png"

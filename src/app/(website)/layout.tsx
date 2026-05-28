@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { WebsiteLayout } from "@/layouts/website";
+import { WebsiteLayout } from "@/features/home/layouts";
 
 export const metadata: Metadata = {
   title: "Home",
