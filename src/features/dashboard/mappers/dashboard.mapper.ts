@@ -13,7 +13,6 @@ import {
   formatProjectRelativeTime,
   getProjectStatusLabel,
 } from "@/features/dashboard/projects/utils/project.helpers";
-
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "؟";
