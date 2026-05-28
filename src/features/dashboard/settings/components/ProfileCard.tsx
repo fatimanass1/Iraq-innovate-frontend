@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import { Building2, Mail, Phone, User } from "lucide-react";
 import { cn } from "@/shared/utils/utils";
 import { SETTINGS_FIELDS, SETTINGS_PAGE } from "../constants/settings-content";
@@ -34,16 +34,6 @@ export function ProfileCard({
   const [errors, setErrors] = useState<Partial<Record<keyof SettingsFormValues, string>>>(
     {},
   );
-
-  useEffect(() => {
-    setForm({
-      fullName: profile.fullName,
-      email: profile.email,
-      phoneNumber: profile.phoneNumber,
-      newsLetterSubscription: profile.newsLetterSubscription,
-    });
-    setErrors({});
-  }, [profile]);
 
   const handleChange =
     (field: keyof SettingsFormValues) =>

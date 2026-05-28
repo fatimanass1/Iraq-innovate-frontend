@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { ROUTES } from "@/shared/constants/routes";
@@ -24,17 +24,13 @@ export function SubmitProjectScreen() {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [category, setCategory] = useState("");
   const [ownerName, setOwnerName] = useState("");
+  const defaultOwnerName =
+    navbarUser.name && navbarUser.name !== "Guest" ? navbarUser.name : "";
   const [ownerBirthdate, setOwnerBirthdate] = useState("");
   const [ownerCollege, setOwnerCollege] = useState("");
   const [ownerLinkedin, setOwnerLinkedin] = useState("");
   const [mediaFiles, setMediaFiles] = useState<File[]>([]);
   const [ownerCertificate, setOwnerCertificate] = useState<File | null>(null);
-
-  useEffect(() => {
-    if (navbarUser.name && navbarUser.name !== "Guest" && !ownerName) {
-      setOwnerName(navbarUser.name);
-    }
-  }, [navbarUser.name, ownerName]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -46,7 +42,7 @@ export function SubmitProjectScreen() {
       website_url: websiteUrl || undefined,
       category: category ? Number(category) : undefined,
       media: mediaFiles.length > 0 ? mediaFiles : undefined,
-      owner_name: ownerName,
+      owner_name: ownerName || defaultOwnerName,
       owner_birthdate: ownerBirthdate || undefined,
       owner_college: ownerCollege || undefined,
       owner_linkedin_url: ownerLinkedin || undefined,
@@ -122,7 +118,12 @@ export function SubmitProjectScreen() {
             </Field>
 
             <Field label={SUBMIT_PROJECT_FIELDS.ownerName} required>
-              <input value={ownerName} onChange={(e) => setOwnerName(e.target.value)} required className={inputClassName} />
+              <input
+                value={ownerName || defaultOwnerName}
+                onChange={(e) => setOwnerName(e.target.value)}
+                required
+                className={inputClassName}
+              />
             </Field>
 
             <Field label={SUBMIT_PROJECT_FIELDS.ownerBirthdate}>

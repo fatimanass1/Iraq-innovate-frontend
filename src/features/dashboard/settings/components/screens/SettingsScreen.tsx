@@ -74,6 +74,7 @@ export function SettingsScreen() {
 
       <div className="mx-auto max-w-[1200px] px-4 pb-10 pt-6 sm:px-6 lg:px-8">
         <ProfileCard
+          key={`${profile.email}-${profile.fullName}-${profile.phoneNumber}-${profile.newsLetterSubscription}`}
           profile={profile}
           onSave={updateProfile}
           isSaving={isSaving}

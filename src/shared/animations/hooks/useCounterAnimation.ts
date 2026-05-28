@@ -61,27 +61,25 @@ export function useCounterAnimation(
     enabled = true,
   } = options;
 
+  const shouldAnimate = enabled && !shouldReduceMotion;
+  const initialValue = shouldAnimate ? 0 : parsed.numericValue;
+
   const isInView = useInView(ref, { once, amount });
   const motionValue = useMotionValue(0);
-  const [displayValue, setDisplayValue] = useState(shouldReduceMotion ? parsed.numericValue : 0);
+  const [displayValue, setDisplayValue] = useState(initialValue);
+
+  const resolvedValue = shouldAnimate ? displayValue : parsed.numericValue;
 
   useEffect(() => {
-    if (!enabled) {
-      setDisplayValue(parsed.numericValue);
+    if (!shouldAnimate || !isInView) {
       return;
     }
 
-    if (shouldReduceMotion) {
-      setDisplayValue(parsed.numericValue);
-      return;
-    }
-
-    if (!isInView) {
-      return;
-    }
+    const unsubscribe = motionValue.on("change", (latest) => {
+      setDisplayValue(latest);
+    });
 
     motionValue.set(0);
-    setDisplayValue(0);
 
     const controls = animate(motionValue, parsed.numericValue, {
       duration,
@@ -89,32 +87,20 @@ export function useCounterAnimation(
       ease: EASING.smooth,
     });
 
-    const unsubscribe = motionValue.on("change", (latest) => {
-      setDisplayValue(latest);
-    });
-
     return () => {
       controls.stop();
       unsubscribe();
     };
-  }, [
-    delay,
-    duration,
-    enabled,
-    isInView,
-    motionValue,
-    parsed.numericValue,
-    shouldReduceMotion,
-  ]);
+  }, [delay, duration, shouldAnimate, isInView, motionValue, parsed.numericValue]);
 
   const formattedValue =
     parsed.decimals > 0
-      ? displayValue.toFixed(parsed.decimals)
-      : String(Math.round(displayValue));
+      ? resolvedValue.toFixed(parsed.decimals)
+      : String(Math.round(resolvedValue));
 
   return {
     ref,
     text: `${parsed.prefix}${formattedValue}${parsed.suffix}`,
-    isAnimating: enabled && isInView && !shouldReduceMotion,
+    isAnimating: shouldAnimate && isInView,
   };
 }
