@@ -45,7 +45,6 @@ export function ProjectTabs({ activeTab, onTabChange, className }: ProjectTabsPr
               style={{
                 boxShadow: isActive ? undefined : `0 0 0 1px ${P.dividerColor}`,
               }}
-              aria-pressed={isActive}
             >
               {tab.labelAr}
             </button>

@@ -84,11 +84,25 @@ export function SubmitGlowSelect({
     };
   }, [close, open]);
 
-  useEffect(() => {
-    if (!open) return;
+  const resolveHighlightIndex = useCallback(() => {
     const selectedIndex = options.findIndex((option) => String(option.id) === value);
-    setHighlightIndex(selectedIndex >= 0 ? selectedIndex : 0);
-  }, [open, options, value]);
+    return selectedIndex >= 0 ? selectedIndex : 0;
+  }, [options, value]);
+
+  const openMenu = useCallback(() => {
+    setHighlightIndex(resolveHighlightIndex());
+    setOpen(true);
+  }, [resolveHighlightIndex]);
+
+  const toggleMenu = useCallback(() => {
+    if (open) {
+      setHighlightIndex(-1);
+      setOpen(false);
+      return;
+    }
+    setHighlightIndex(resolveHighlightIndex());
+    setOpen(true);
+  }, [open, resolveHighlightIndex]);
 
   const handleTriggerKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (isDisabled) return;
@@ -102,14 +116,14 @@ export function SubmitGlowSelect({
 
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
-      setOpen((prev) => !prev);
+      toggleMenu();
       return;
     }
 
     if (event.key === "ArrowDown") {
       event.preventDefault();
       if (!open) {
-        setOpen(true);
+        openMenu();
         return;
       }
       setHighlightIndex((prev) => Math.min(prev + 1, options.length - 1));
@@ -118,7 +132,7 @@ export function SubmitGlowSelect({
     if (event.key === "ArrowUp") {
       event.preventDefault();
       if (!open) {
-        setOpen(true);
+        openMenu();
         return;
       }
       setHighlightIndex((prev) => Math.max(prev - 1, 0));
@@ -170,12 +184,11 @@ export function SubmitGlowSelect({
           aria-haspopup="listbox"
           aria-expanded={open}
           aria-controls={listboxId}
-          aria-invalid={error ? true : undefined}
           onBlur={() => {
             if (!open) onBlur?.();
           }}
           onClick={() => {
-            if (!isDisabled) setOpen((prev) => !prev);
+            if (!isDisabled) toggleMenu();
           }}
           onKeyDown={handleTriggerKeyDown}
           className={cn(

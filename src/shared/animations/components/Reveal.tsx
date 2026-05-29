@@ -2,7 +2,7 @@
 
 import { createElement, type ReactNode } from "react";
 import { cn } from "@/shared/utils/utils";
-import type { MotionElementTag, RevealPreset } from "../constants";
+import type { MotionElementTag } from "../constants";
 import { useRevealAnimation, type UseRevealAnimationOptions } from "../hooks/useRevealAnimation";
 import { motionElements } from "./motion-elements";
 

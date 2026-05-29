@@ -1,18 +1,12 @@
 import Image from "next/image";
 import { HeroCTAs } from "./HeroCTAs";
 import { HeroAnimatedContent } from "./HeroAnimatedContent";
-import { Cairo, Outfit } from "next/font/google";
+import { Cairo } from "next/font/google";
 import { Container } from "@/shared/components/layout";
 import { cn } from "@/shared/utils/utils";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  display: "swap",
-});
-
-const outfit = Outfit({
-  subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
 });

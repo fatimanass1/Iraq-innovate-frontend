@@ -1,4 +1,4 @@
-import type { ProjectFilterTab, ProjectTab } from "../types/project.types";
+import type { ProjectTab } from "../types/project.types";
 
 export const MY_PROJECTS_PAGE = {
   navbarTitleAr: "مشاريعي",

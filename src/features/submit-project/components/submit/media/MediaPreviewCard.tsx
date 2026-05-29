@@ -2,7 +2,6 @@
 
 import { X } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
-import { cn } from "@/shared/utils/utils";
 import { scaleSoftVariants } from "@/shared/animations/variants";
 import { DURATION, EASING } from "@/shared/animations/constants";
 import {

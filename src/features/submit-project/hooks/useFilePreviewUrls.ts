@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { canPreviewInBrowser, getMediaFileKind, type MediaFileKind } from "../utils/media-file";
 
 export type FilePreviewItem = {
@@ -16,36 +16,40 @@ function fileKey(file: File) {
 
 export function useFilePreviewUrls(files: File[]): FilePreviewItem[] {
   const cacheRef = useRef<Map<string, string>>(new Map());
+  const [previews, setPreviews] = useState<FilePreviewItem[]>([]);
 
-  const previews = useMemo(() => {
-    return files.map((file) => {
+  useEffect(() => {
+    const cache = cacheRef.current;
+    const activeKeys = new Set<string>();
+
+    const next = files.map((file) => {
       const key = fileKey(file);
+      activeKeys.add(key);
       const kind = getMediaFileKind(file);
 
       let url: string | null = null;
       if (canPreviewInBrowser(file)) {
-        const cached = cacheRef.current.get(key);
+        const cached = cache.get(key);
         if (cached) {
           url = cached;
         } else {
           url = URL.createObjectURL(file);
-          cacheRef.current.set(key, url);
+          cache.set(key, url);
         }
       }
 
       return { key, file, kind, url };
     });
-  }, [files]);
 
-  useEffect(() => {
-    const activeKeys = new Set(previews.map((item) => item.key));
-    for (const [key, url] of cacheRef.current.entries()) {
+    for (const [key, url] of cache.entries()) {
       if (!activeKeys.has(key)) {
         URL.revokeObjectURL(url);
-        cacheRef.current.delete(key);
+        cache.delete(key);
       }
     }
-  }, [previews]);
+
+    setPreviews(next);
+  }, [files]);
 
   useEffect(() => {
     const cache = cacheRef.current;

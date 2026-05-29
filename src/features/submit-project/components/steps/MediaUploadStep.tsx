@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useMemo } from "react";
 import { MEDIA_UPLOAD_ACCEPT, MEDIA_UPLOAD_THEME as M } from "../../constants/media-upload";
 import { useProjectMediaTypes } from "../../hooks/useProjectMediaTypes";
 import {
@@ -35,8 +35,8 @@ export function MediaUploadStep({
   onFileRejected,
 }: MediaUploadStepProps) {
   const { data: mediaTypes = [] } = useProjectMediaTypes();
-  const resolveMediaTypeIdForKind = useCallback(
-    createMediaTypeResolver(mediaTypes),
+  const resolveMediaTypeIdForKind = useMemo(
+    () => createMediaTypeResolver(mediaTypes),
     [mediaTypes],
   );
 

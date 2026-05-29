@@ -80,12 +80,14 @@ export function useMediaUpload({
   const previewUrlsRef = useRef<Set<string>>(new Set());
   const [isDragging, setIsDragging] = useState(false);
   const [entries, setEntries] = useState<MediaFileEntry[]>(() =>
-    mediaItems.map((item) => {
-      const entry = buildEntry(item.file, item.mediaTypeId, "ready");
-      if (entry.previewUrl) previewUrlsRef.current.add(entry.previewUrl);
-      return entry;
-    }),
+    mediaItems.map((item) => buildEntry(item.file, item.mediaTypeId, "ready")),
   );
+
+  useEffect(() => {
+    entries.forEach((entry) => {
+      if (entry.previewUrl) previewUrlsRef.current.add(entry.previewUrl);
+    });
+  }, [entries]);
 
   const commitEntries = useCallback(
     (nextEntries: MediaFileEntry[]) => {

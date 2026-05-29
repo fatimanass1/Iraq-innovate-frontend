@@ -153,6 +153,7 @@ async function main() {
     );
   }
 
+  const report = results.map((r) => ({
     label: r.label,
     status: r.status,
     formEntries: r.formEntries,

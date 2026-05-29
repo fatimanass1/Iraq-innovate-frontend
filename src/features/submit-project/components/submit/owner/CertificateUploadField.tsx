@@ -57,7 +57,6 @@ export function CertificateUploadField({
           gap: O.certificateInnerGap,
         }}
         aria-label={OWNER_CERTIFICATE_COPY.browseAria}
-        aria-invalid={error ? true : undefined}
       >
         <div
           className="flex min-w-0 flex-1 flex-col"
