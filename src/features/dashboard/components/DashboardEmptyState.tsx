@@ -1,8 +1,7 @@
 "use client";
 
 import { FolderOpen } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { ROUTES } from "@/shared/constants/routes";
+import { useProtectedNavigation } from "@/features/auth/hooks/useProtectedNavigation";
 import { cn } from "@/shared/utils/utils";
 import { DASHBOARD_STATES } from "../constants/dashboard-content";
 import { cairo, outfit } from "../fonts";
@@ -12,7 +11,7 @@ type DashboardEmptyStateProps = {
 };
 
 export function DashboardEmptyState({ className }: DashboardEmptyStateProps) {
-  const router = useRouter();
+  const { navigateToProjectSubmit } = useProtectedNavigation();
 
   return (
     <div
@@ -58,7 +57,7 @@ export function DashboardEmptyState({ className }: DashboardEmptyStateProps) {
 
       <button
         type="button"
-        onClick={() => router.push(ROUTES.PROJECT_SUBMIT)}
+        onClick={navigateToProjectSubmit}
         className={cn(
           outfit.className,
           "mt-6 inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#A8CF45] px-6 text-[12px] font-semibold text-[#010B18]",

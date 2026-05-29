@@ -3,7 +3,6 @@ import { authenticatedClient } from "@/shared/services/api/client/authenticated"
 import type {
   ApiProjectDetail,
   PaginatedProjectsApiResponse,
-  SubmitProjectPayload,
   SubmitTeamMemberPayload,
 } from "../types/project-api.types";
 import { ProjectsApiError } from "../types/project.types";
@@ -93,34 +92,6 @@ function appendIfDefined(formData: FormData, key: string, value: string | undefi
   }
 }
 
-function buildSubmitProjectFormData(payload: SubmitProjectPayload): FormData {
-  const formData = new FormData();
-
-  formData.append("title", payload.title.trim());
-  formData.append("owner_name", payload.owner_name.trim());
-
-  appendIfDefined(formData, "description", payload.description);
-  appendIfDefined(formData, "summary", payload.summary);
-  appendIfDefined(formData, "website_url", payload.website_url);
-  appendIfDefined(formData, "owner_birthdate", payload.owner_birthdate);
-  appendIfDefined(formData, "owner_college", payload.owner_college);
-  appendIfDefined(formData, "owner_linkedin_url", payload.owner_linkedin_url);
-
-  if (payload.category != null) {
-    formData.append("category", String(payload.category));
-  }
-
-  payload.media?.forEach((file) => {
-    formData.append("media", file);
-  });
-
-  if (payload.owner_graduate_certificate) {
-    formData.append("owner_graduate_certificate", payload.owner_graduate_certificate);
-  }
-
-  return formData;
-}
-
 function buildTeamMemberFormData(payload: SubmitTeamMemberPayload): FormData {
   const formData = new FormData();
 
@@ -137,7 +108,7 @@ function buildTeamMemberFormData(payload: SubmitTeamMemberPayload): FormData {
   return formData;
 }
 
-/** Raw projects HTTP calls — no UI or store logic. */
+/** Raw projects HTTP calls — listing, details, team members on existing projects. */
 export const projectsApi = {
   async getProjects(ownerId?: number): Promise<PaginatedProjectsApiResponse> {
     try {
@@ -157,18 +128,6 @@ export const projectsApi = {
     try {
       const { data } = await authenticatedClient.get<ApiProjectDetail>(
         PROJECTS_ENDPOINTS.DETAIL(id),
-      );
-      return data;
-    } catch (error) {
-      throw toProjectsApiError(error);
-    }
-  },
-
-  async submitProject(payload: SubmitProjectPayload): Promise<ApiProjectDetail> {
-    try {
-      const { data } = await authenticatedClient.post<ApiProjectDetail>(
-        PROJECTS_ENDPOINTS.SUBMIT,
-        buildSubmitProjectFormData(payload),
       );
       return data;
     } catch (error) {

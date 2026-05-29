@@ -5,7 +5,7 @@ import {
   mapProjectsListResponse,
 } from "../mappers/project.mapper";
 import { parseProjectId } from "../hooks/project.errors";
-import type { SubmitProjectPayload, SubmitTeamMemberPayload } from "../types/project-api.types";
+import type { SubmitTeamMemberPayload } from "../types/project-api.types";
 import type { ProjectDetail, ProjectListItem } from "../types/project.types";
 import { ProjectsApiError } from "../types/project.types";
 
@@ -68,15 +68,7 @@ export const projectsService = {
   },
 };
 
-/** Business logic — project submission. */
-export const projectSubmitService = {
-  async submitProject(payload: SubmitProjectPayload): Promise<ProjectDetail> {
-    const response = await projectsApi.submitProject(payload);
-    return mapApiProjectDetail(response);
-  },
-};
-
-/** Business logic — team member submission. */
+/** Business logic — team member submission on existing projects. */
 export const teamMemberService = {
   async addTeamMember(payload: SubmitTeamMemberPayload): Promise<void> {
     await projectsApi.submitTeamMember(payload);

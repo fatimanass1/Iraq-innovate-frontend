@@ -4,6 +4,8 @@ export { AuthDivider } from "./AuthDivider";
 export { AuthFormField } from "./AuthFormField";
 export { AuthInput } from "./AuthInput";
 export { PasswordInput, AuthPasswordInput } from "./PasswordInput";
+export { AuthHomeLink } from "./AuthHomeLink";
+export { AuthScreenShell } from "./AuthScreenShell";
 export { AuthSidebar } from "./AuthSidebar";
 export { SignInFormView } from "./SignInFormView";
 export { SignUpFormView } from "./SignUpFormView";

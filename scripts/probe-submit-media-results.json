@@ -1,0 +1,173 @@
+[
+  {
+    "label": "A: media[0][type] + media[0][file]",
+    "status": 401,
+    "formEntries": [
+      {
+        "key": "title",
+        "value": "probe-media-test"
+      },
+      {
+        "key": "owner_name",
+        "value": "Probe User"
+      },
+      {
+        "key": "category",
+        "value": "1"
+      },
+      {
+        "key": "media[0][type]",
+        "value": "1"
+      },
+      {
+        "key": "media[0][file]",
+        "value": {
+          "File": true,
+          "name": "probe.png",
+          "size": 70,
+          "type": "image/png"
+        }
+      }
+    ],
+    "fullResponse": {
+      "detail": "Authentication credentials were not provided."
+    },
+    "mediaErrors": null,
+    "mediaErrorsJson": "null"
+  },
+  {
+    "label": "B: media.0.type + media.0.file",
+    "status": 401,
+    "formEntries": [
+      {
+        "key": "title",
+        "value": "probe-media-test"
+      },
+      {
+        "key": "owner_name",
+        "value": "Probe User"
+      },
+      {
+        "key": "category",
+        "value": "1"
+      },
+      {
+        "key": "media.0.type",
+        "value": "1"
+      },
+      {
+        "key": "media.0.file",
+        "value": {
+          "File": true,
+          "name": "probe.png",
+          "size": 70,
+          "type": "image/png"
+        }
+      }
+    ],
+    "fullResponse": {
+      "detail": "Authentication credentials were not provided."
+    },
+    "mediaErrors": null,
+    "mediaErrorsJson": "null"
+  },
+  {
+    "label": "C: media = JSON string (Swagger curl shape)",
+    "status": 401,
+    "formEntries": [
+      {
+        "key": "title",
+        "value": "probe-media-test"
+      },
+      {
+        "key": "owner_name",
+        "value": "Probe User"
+      },
+      {
+        "key": "category",
+        "value": "1"
+      },
+      {
+        "key": "media",
+        "value": "[{\"type\":1,\"file\":\"probe.png\",\"url\":\"\"}]"
+      }
+    ],
+    "fullResponse": {
+      "detail": "Authentication credentials were not provided."
+    },
+    "mediaErrors": null,
+    "mediaErrorsJson": "null"
+  },
+  {
+    "label": "D: media + media_type (parallel)",
+    "status": 401,
+    "formEntries": [
+      {
+        "key": "title",
+        "value": "probe-media-test"
+      },
+      {
+        "key": "owner_name",
+        "value": "Probe User"
+      },
+      {
+        "key": "category",
+        "value": "1"
+      },
+      {
+        "key": "media",
+        "value": {
+          "File": true,
+          "name": "probe.png",
+          "size": 70,
+          "type": "image/png"
+        }
+      },
+      {
+        "key": "media_type",
+        "value": "1"
+      }
+    ],
+    "fullResponse": {
+      "detail": "Authentication credentials were not provided."
+    },
+    "mediaErrors": null,
+    "mediaErrorsJson": "null"
+  },
+  {
+    "label": "E: media[0]type + media[0]file",
+    "status": 401,
+    "formEntries": [
+      {
+        "key": "title",
+        "value": "probe-media-test"
+      },
+      {
+        "key": "owner_name",
+        "value": "Probe User"
+      },
+      {
+        "key": "category",
+        "value": "1"
+      },
+      {
+        "key": "media[0]type",
+        "value": "1"
+      },
+      {
+        "key": "media[0]file",
+        "value": {
+          "File": true,
+          "name": "probe.png",
+          "size": 70,
+          "type": "image/png"
+        }
+      }
+    ],
+    "fullResponse": {
+      "detail": "Authentication credentials were not provided."
+    },
+    "mediaErrors": null,
+    "mediaErrorsJson": "null"
+  }
+]

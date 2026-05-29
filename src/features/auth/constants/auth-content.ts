@@ -1,3 +1,7 @@
+export const AUTH_COMMON = {
+  homeAria: "Back to home",
+} as const;
+
 export const AUTH_SIDEBAR = {
   brandTitle: "INNOVATE IRAQ",
   brandSubtitle: "العراق يبتكر 2026",

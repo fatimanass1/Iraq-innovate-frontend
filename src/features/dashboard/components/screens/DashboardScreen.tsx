@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { ROUTES } from "@/shared/constants/routes";
+import { useProtectedNavigation } from "@/features/auth/hooks/useProtectedNavigation";
 import { cn } from "@/shared/utils/utils";
 import { Reveal, RevealItem, RevealStagger } from "@/shared/animations";
 import { ProjectsApiError } from "@/features/dashboard/projects/types/project.types";
@@ -24,6 +25,7 @@ import { cairo } from "../../fonts";
 
 export function DashboardScreen() {
   const router = useRouter();
+  const { navigateToProjectSubmit } = useProtectedNavigation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navbarUser = useDashboardUser();
@@ -102,7 +104,7 @@ export function DashboardScreen() {
 
       <div className="mx-auto w-full max-w-[1200px] min-w-0 overflow-x-hidden px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
         <Reveal preset="fade-up" className="mt-4 flex justify-stretch sm:mt-5 sm:justify-end">
-          <NewProjectButton onClick={() => router.push(ROUTES.PROJECT_SUBMIT)} />
+          <NewProjectButton onClick={navigateToProjectSubmit} />
         </Reveal>
 
         <RevealStagger

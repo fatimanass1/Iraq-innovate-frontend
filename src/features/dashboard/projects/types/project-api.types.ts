@@ -69,20 +69,6 @@ export type PaginatedProjectsApiResponse = {
   results: ApiProjectListItem[];
 };
 
-export type SubmitProjectPayload = {
-  title: string;
-  description?: string;
-  summary?: string;
-  website_url?: string;
-  category?: number;
-  media?: File[];
-  owner_name: string;
-  owner_birthdate?: string;
-  owner_college?: string;
-  owner_graduate_certificate?: File;
-  owner_linkedin_url?: string;
-};
-
 export type SubmitTeamMemberPayload = {
   projectId: number;
   name: string;

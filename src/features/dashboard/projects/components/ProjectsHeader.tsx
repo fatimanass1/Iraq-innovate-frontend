@@ -1,8 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { ROUTES } from "@/shared/constants/routes";
 import { NewProjectButton } from "@/features/dashboard/components/NewProjectButton";
+import { useProtectedNavigation } from "@/features/auth/hooks/useProtectedNavigation";
 import { cn } from "@/shared/utils/utils";
 import { PROJECTS_THEME as P } from "../constants/projects-theme";
 import { ProjectTabs } from "./ProjectTabs";
@@ -19,7 +18,7 @@ export function ProjectsHeader({
   onTabChange,
   className,
 }: ProjectsHeaderProps) {
-  const router = useRouter();
+  const { navigateToProjectSubmit } = useProtectedNavigation();
 
   return (
     <section
@@ -33,7 +32,7 @@ export function ProjectsHeader({
       <div className="relative min-h-[40px]">
         <NewProjectButton
           className="absolute left-0 top-0 sm:left-0"
-          onClick={() => router.push(ROUTES.PROJECT_SUBMIT)}
+          onClick={navigateToProjectSubmit}
         />
       </div>
 
