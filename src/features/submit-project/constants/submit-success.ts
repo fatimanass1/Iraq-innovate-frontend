@@ -8,7 +8,6 @@ export const SUBMIT_SUCCESS_COPY = {
   dashboard: "لوحة التحكم",
   home: "عودة للرئيسية",
 } as const;
-
 export const SUBMIT_SUCCESS_THEME = {
   titleEn: "#111318",
   titleAr: "#5A8F00",
