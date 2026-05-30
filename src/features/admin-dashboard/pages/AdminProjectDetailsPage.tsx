@@ -16,7 +16,7 @@ import { AdminProjectReviewSkeleton } from "../components/project-review/AdminPr
 import { AdminProjectSummarySection } from "../components/project-review/AdminProjectSummarySection";
 import { AdminProjectTeamSection } from "../components/project-review/AdminProjectTeamSection";
 import { AdminDashboardErrorState } from "../components/states/AdminDashboardErrorState";
-import { ADMIN_PROJECT_DETAILS, ADMIN_PROJECTS_HEADER } from "../constants/admin-projects-content";
+import { ADMIN_PROJECT_DETAILS } from "../constants/admin-projects-content";
 import { ADMIN_PROJECT_REVIEW_CONTENT } from "../constants/admin-project-review-content";
 import { ADMIN_PROJECT_REVIEW_THEME as T } from "../constants/admin-project-review-theme";
 import { ADMIN_STATES } from "../constants/admin-dashboard-content";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { adminNotificationsService } from "../services/adminNotificationsService";
 import type { AdminNotificationFilter } from "../types/admin-notification.types";
@@ -10,23 +10,24 @@ export const ADMIN_NOTIFICATIONS_QUERY_KEY = ["admin", "notifications"] as const
 
 export function useAdminNotifications() {
   const queryClient = useQueryClient();
-  const [filter, setFilter] = useState<AdminNotificationFilter>("all");
+  const [filter, setFilterState] = useState<AdminNotificationFilter>("all");
   const [page, setPage] = useState(1);
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  useEffect(() => {
+  const setFilter = useCallback((nextFilter: AdminNotificationFilter) => {
+    setFilterState(nextFilter);
     setPage(1);
-  }, [filter]);
+  }, []);
 
   const query = useQuery({
     queryKey: [...ADMIN_NOTIFICATIONS_QUERY_KEY, page],
     queryFn: () => adminNotificationsService.getNotifications(page),
   });
 
-  const filteredItems = useMemo(() => {
-    if (!query.data?.items) return [];
-    return filterAdminNotifications(query.data.items, filter);
-  }, [filter, query.data?.items]);
+  const notificationItems = query.data?.items;
+  const filteredItems = notificationItems
+    ? filterAdminNotifications(notificationItems, filter)
+    : [];
 
   const markAsReadMutation = useMutation({
     mutationFn: (id: string) => adminNotificationsService.markAsRead(id),
@@ -45,12 +46,12 @@ export function useAdminNotifications() {
   const handleSelect = useCallback(
     (id: string) => {
       setActiveId(id);
-      const item = query.data?.items.find((entry) => entry.id === id);
+      const item = notificationItems?.find((entry) => entry.id === id);
       if (item && !item.isRead) {
         markAsReadMutation.mutate(id);
       }
     },
-    [markAsReadMutation, query.data?.items],
+    [markAsReadMutation, notificationItems],
   );
 
   const loadMore = useCallback(() => {
