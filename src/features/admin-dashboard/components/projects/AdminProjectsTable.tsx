@@ -1,6 +1,5 @@
 "use client";
 
-import { Brain, Building2, Droplets, Leaf } from "lucide-react";
 import { cn } from "@/shared/utils/utils";
 import { ADMIN_PROJECTS_TABLE } from "../../constants/admin-projects-content";
 import { ADMIN_PROJECTS_THEME as PM } from "../../constants/admin-projects-theme";
@@ -9,34 +8,6 @@ import type { AdminProjectListRow } from "../../types/admin-projects.types";
 import { getAdminProjectTableActionLabel } from "../../utils/admin-projects-table";
 import { AdminProjectDetailsLink } from "../navigation/AdminProjectDetailsLink";
 import { AdminStatusBadge } from "./AdminStatusBadge";
-
-const CATEGORY_ICONS = [Brain, Droplets, Building2, Leaf];
-
-const CATEGORY_ICON_STYLES = [
-  { bg: "#ECFDF5", border: "#D0FAE5", icon: "#009966" },
-  { bg: "#EFF6FF", border: "#DBEAFE", icon: "#2563EB" },
-  { bg: "#F5F5F2", border: "#E5E5DF", icon: "#010B18" },
-  { bg: "#FFFBEB", border: "#FEF3C6", icon: "#FE9A00" },
-];
-
-function CategoryIcon({ index }: { index: number }) {
-  const Icon = CATEGORY_ICONS[index % CATEGORY_ICONS.length];
-  const palette = CATEGORY_ICON_STYLES[index % CATEGORY_ICON_STYLES.length];
-  return (
-    <div
-      className="flex shrink-0 items-center justify-center border"
-      style={{
-        width: 48,
-        height: 48,
-        borderRadius: 20,
-        backgroundColor: palette.bg,
-        borderColor: palette.border,
-      }}
-    >
-      <Icon className="size-6" style={{ color: palette.icon }} strokeWidth={1.5} />
-    </div>
-  );
-}
 
 function OwnerAvatar({ name }: { name: string }) {
   const initial = name.trim().slice(0, 1) || "؟";
@@ -103,7 +74,7 @@ export function AdminProjectsTable({ rows }: AdminProjectsTableProps) {
   return (
     <>
       <div className="hidden flex-col py-2 lg:flex" style={{ gap: 12 }}>
-        {rows.map((row, index) => (
+        {rows.map((row) => (
           <article
             key={row.id}
             className="flex flex-wrap items-center justify-between gap-4 rounded-[20px] border transition-colors lg:flex-nowrap"
@@ -114,7 +85,6 @@ export function AdminProjectsTable({ rows }: AdminProjectsTableProps) {
             }}
           >
             <div className="flex min-w-0 flex-1 items-center gap-4 lg:max-w-[313px]">
-              <CategoryIcon index={index} />
               <div className="min-w-0 flex-1 text-end">
                 <p
                   className={cn(cairo.className, "text-[16px] font-semibold leading-[22px] text-[#010B18]")}
@@ -182,7 +152,7 @@ export function AdminProjectsTable({ rows }: AdminProjectsTableProps) {
       </div>
 
       <div className="flex flex-col gap-3 lg:hidden">
-        {rows.map((row, index) => (
+        {rows.map((row) => (
           <article
             key={row.id}
             className="rounded-[20px] border p-3.5 sm:p-4"
@@ -190,7 +160,6 @@ export function AdminProjectsTable({ rows }: AdminProjectsTableProps) {
           >
             <div className="w-full text-end">
               <div className="flex items-start justify-between gap-3">
-                <CategoryIcon index={index} />
                 <div className="min-w-0 flex-1">
                   <p className={cn(cairo.className, "text-[15px] font-semibold text-[#010B18]")} lang="ar">
                     {row.title}
