@@ -2,11 +2,10 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Clock3, PencilLine } from "lucide-react";
+import { Clock3 } from "lucide-react";
 import { ROUTES } from "@/shared/constants/routes";
 import { cn } from "@/shared/utils/utils";
 import { DASHBOARD_ACTIONS } from "../constants/dashboard-content";
-import { DASHBOARD_THEME } from "../constants/dashboard-theme";
 import { PROJECT_STATUS_CONFIG, getCategoryColor } from "../constants/project-status";
 import { cairo, outfit } from "../fonts";
 import type { DashboardProject } from "../types/dashboard.types";
@@ -14,14 +13,12 @@ import type { DashboardProject } from "../types/dashboard.types";
 type ProjectCardProps = {
   project: DashboardProject;
   onViewDetails?: (projectId: string) => void;
-  onEdit?: (projectId: string) => void;
   className?: string;
 };
 
 export function ProjectCard({
   project,
   onViewDetails,
-  onEdit,
   className,
 }: ProjectCardProps) {
   const router = useRouter();
@@ -123,30 +120,17 @@ export function ProjectCard({
         </div>
       </div>
 
-      <div className="mt-auto flex items-center gap-2 pt-3.5">
+      <div className="mt-auto pt-3.5">
         <button
           type="button"
           onClick={handleViewDetails}
           className={cn(
             outfit.className,
-            "flex h-[38px] flex-1 items-center justify-center rounded-2xl bg-[#010B18] text-[12px] font-semibold text-white",
+            "flex h-[38px] w-full items-center justify-center rounded-2xl bg-[#010B18] text-[12px] font-semibold text-white",
             "transition-colors duration-150 hover:bg-[rgba(1,11,24,0.9)]",
           )}
         >
           {DASHBOARD_ACTIONS.viewDetails}
-        </button>
-
-        <button
-          type="button"
-          onClick={() => onEdit?.(project.id)}
-          className={cn(
-            "flex size-[44px] shrink-0 items-center justify-center rounded-2xl",
-            "border text-[rgba(1,11,24,0.45)] transition-colors duration-150 hover:text-[#010B18]",
-          )}
-          style={{ borderColor: DASHBOARD_THEME.borderSubtle }}
-          aria-label="Edit project"
-        >
-          <PencilLine className="size-[15px] stroke-[1.75]" />
         </button>
       </div>
     </article>

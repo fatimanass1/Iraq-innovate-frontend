@@ -6,7 +6,6 @@ import type {
 import type { ProjectDetail, ProjectListItem } from "../types/project.types";
 import {
   formatProjectDate,
-  getMediaUrl,
   normalizeProjectStatus,
 } from "../utils/project.helpers";
 import { isImageMedia, isVideoMedia, resolveAssetUrl } from "../utils/media.helpers";
@@ -48,9 +47,17 @@ export function mapApiProjectDetail(project: ApiProjectDetail): ProjectDetail {
     statusId: project.status_id,
     updatedAt: project.updated_at,
     media: mediaItems.map((item) => {
-      const url = getMediaUrl(item) ?? "";
-      const fileUrl = url;
+      const fileUrl = resolveAssetUrl(item.file) ?? "";
+      const url = resolveAssetUrl(item.url) ?? "";
+      const src = fileUrl || url;
       const typeName = item.type?.name ?? "Media";
+
+      if (process.env.NODE_ENV === "development") {
+        console.log("MEDIA ITEM", item);
+        console.log("MEDIA FILE", item.file);
+        console.log("MEDIA URL", item.url);
+        console.log("MEDIA RESOLVED SRC", src);
+      }
 
       return {
         id: item.id,
@@ -58,8 +65,8 @@ export function mapApiProjectDetail(project: ApiProjectDetail): ProjectDetail {
         url,
         fileUrl,
         createdAt: item.created_at,
-        isImage: Boolean(url && isImageMedia(typeName, url)),
-        isVideo: Boolean(url && isVideoMedia(typeName, url)),
+        isImage: Boolean(src && isImageMedia(typeName, src)),
+        isVideo: Boolean(src && isVideoMedia(typeName, src)),
       };
     }),
     attachments: attachmentItems.map((item) => ({

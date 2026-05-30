@@ -5,6 +5,7 @@ import type {
   PaginatedProjectsApiResponse,
   SubmitTeamMemberPayload,
 } from "../types/project-api.types";
+import { parseProjectId } from "../hooks/project.errors";
 import { ProjectsApiError } from "../types/project.types";
 import { PROJECTS_ENDPOINTS } from "./projectsEndpoints";
 
@@ -125,10 +126,20 @@ export const projectsApi = {
   },
 
   async getProjectById(id: number | string): Promise<ApiProjectDetail> {
+    const parsedId = parseProjectId(id);
+
+    if (!parsedId) {
+      throw new ProjectsApiError("معرّف المشروع غير صالح.", 404);
+    }
+
+    const url = PROJECTS_ENDPOINTS.DETAIL(parsedId);
+
+    if (process.env.NODE_ENV === "development") {
+      console.log("[ProjectAPI] GET", url, { rawId: id, parsedId });
+    }
+
     try {
-      const { data } = await authenticatedClient.get<ApiProjectDetail>(
-        PROJECTS_ENDPOINTS.DETAIL(id),
-      );
+      const { data } = await authenticatedClient.get<ApiProjectDetail>(url);
       return data;
     } catch (error) {
       throw toProjectsApiError(error);

@@ -37,7 +37,7 @@ export function normalizeProjectStatus(status: string): ProjectStatus {
   const normalized = status.trim().toLowerCase().replace(/-/g, "_");
 
   if (normalized === "approved") return "approved";
-  if (normalized === "rejected") return "rejected";
+  if (normalized === "rejected" || normalized === "declined") return "rejected";
   if (normalized === "pending" || normalized === "under_review") return "pending";
 
   return "pending";
@@ -83,7 +83,7 @@ export function getProjectStatusLabel(status: NormalizedProjectStatus): ProjectS
 }
 
 export function getMediaUrl(item: { url?: string; file?: string }): string | null {
-  return resolveAssetUrl(item.url) ?? resolveAssetUrl(item.file);
+  return resolveAssetUrl(item.file) ?? resolveAssetUrl(item.url);
 }
 
 export function getFirstProjectMediaUrl(

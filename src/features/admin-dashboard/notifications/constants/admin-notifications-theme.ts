@@ -1,0 +1,97 @@
+/** Tokens from Figma frame `Notifications` (435:2) */
+export const ADMIN_NOTIFICATIONS_THEME = {
+  panelMaxWidth: 1000,
+  panelPaddingX: 32,
+  panelPaddingY: 40,
+  panelGap: 32,
+  listGap: 12,
+
+  toolbarGap: 12,
+
+  markAllReadPaddingY: 10,
+  markAllReadPaddingX: 16,
+  markAllReadRadius: 12,
+  markAllReadBorder: "rgba(1, 11, 24, 0.1)",
+  markAllReadBg: "#FFFFFF",
+  markAllReadShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
+  markAllReadText: "rgba(1, 11, 24, 0.7)",
+  markAllReadFontSize: 13,
+  markAllReadLineHeight: 19.5,
+
+  filterGroupPadding: 4,
+  filterGroupRadius: 12,
+  filterGroupBorder: "rgba(1, 11, 24, 0.1)",
+  filterGroupBg: "#FFFFFF",
+  filterGroupShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
+  filterTabPaddingY: 6,
+  filterTabPaddingX: 16,
+  filterTabRadius: 8,
+  filterTabActiveBg: "#A8CF45",
+  filterTabActiveText: "#07080C",
+  filterTabInactiveText: "rgba(1, 11, 24, 0.6)",
+  filterTabActiveFontSize: 13,
+  filterTabInactiveFontSize: 13,
+  filterTabActiveLineHeight: 19.5,
+  filterTabInactiveLineHeight: 19.5,
+
+  cardPadding: 24,
+  cardRadius: 20,
+  cardShadowUnread: "0px 4px 20px 0px rgba(0, 0, 0, 0.03)",
+  cardShadowRead: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
+  cardContentGap: 4,
+  cardBorderWidth: 4,
+  cardIconSize: 48,
+  cardIconRadius: 16,
+  cardIconInnerSize: 20,
+
+  unreadCardBg: "#FFFFFF",
+  readCardBg: "rgba(255, 255, 255, 0.6)",
+  readCardBorder: "rgba(0, 0, 0, 0.05)",
+  readCardOpacity: 0.8,
+
+  timeFontSize: 12,
+  timeLineHeight: 18,
+  timeColor: "rgba(1, 11, 24, 0.3)",
+  titleFontSize: 16,
+  titleLineHeight: 24,
+  titleColor: "#010B18",
+  titleColorRead: "rgba(1, 11, 24, 0.8)",
+  bodyFontSize: 14,
+  bodyLineHeight: 22.75,
+  bodyColor: "rgba(1, 11, 24, 0.7)",
+  bodyColorRead: "rgba(1, 11, 24, 0.6)",
+
+  loadMorePaddingTop: 16,
+  loadMoreButtonPaddingY: 12,
+  loadMoreButtonPaddingX: 24,
+  loadMoreGap: 8,
+  loadMoreText: "rgba(1, 11, 24, 0.4)",
+  loadMoreFontSize: 14,
+  loadMoreLineHeight: 21,
+
+  hoverBorder: "rgba(168, 207, 69, 0.25)",
+  activeBorder: "#A8CF45",
+} as const;
+
+export const ADMIN_NOTIFICATION_TYPE_STYLES = {
+  approved: {
+    border: "#A8CF45",
+    iconBg: "rgba(168, 207, 69, 0.1)",
+    iconColor: "#A8CF45",
+  },
+  pending: {
+    border: "#F59E0B",
+    iconBg: "rgba(245, 158, 11, 0.1)",
+    iconColor: "#F59E0B",
+  },
+  received: {
+    border: "rgba(92, 198, 208, 0.35)",
+    iconBg: "rgba(92, 198, 208, 0.1)",
+    iconColor: "#5CC6D0",
+  },
+  rejected: {
+    border: "rgba(239, 68, 68, 0.35)",
+    iconBg: "#FEE2E2",
+    iconColor: "#EF4444",
+  },
+} as const;

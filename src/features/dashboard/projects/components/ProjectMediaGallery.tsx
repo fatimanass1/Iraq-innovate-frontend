@@ -25,7 +25,18 @@ export function ProjectMediaGallery({ items }: ProjectMediaGalleryProps) {
       ) : (
         <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 xl:grid-cols-3">
           {items.map((item) => {
-            const href = item.url || item.fileUrl;
+            const href = item.fileUrl || item.url;
+
+            if (process.env.NODE_ENV === "development") {
+              console.log("MEDIA RENDER", {
+                id: item.id,
+                fileUrl: item.fileUrl,
+                url: item.url,
+                href,
+                isImage: item.isImage,
+                isVideo: item.isVideo,
+              });
+            }
 
             return (
               <article

@@ -20,6 +20,15 @@ import { useDashboardLogout } from "../hooks/useDashboardLogout";
 import { cairo, outfit } from "../fonts";
 import type { DashboardNavId } from "../types/dashboard.types";
 
+export type DashboardSidebarNavItem = {
+  id: string;
+  label: string;
+  href?: string;
+  icon: ComponentType<{ className?: string }>;
+  onClick?: () => void;
+  tone?: "default" | "danger";
+};
+
 type NavItem = {
   id: DashboardNavId;
   label: string;
@@ -27,7 +36,7 @@ type NavItem = {
   icon: ComponentType<{ className?: string }>;
 };
 
-const MAIN_NAV_ITEMS: NavItem[] = [
+const DEFAULT_MAIN_NAV: NavItem[] = [
   {
     id: "dashboard",
     label: DASHBOARD_NAV.dashboard,
@@ -48,7 +57,7 @@ const MAIN_NAV_ITEMS: NavItem[] = [
   },
 ];
 
-const FOOTER_NAV_ITEMS: NavItem[] = [
+const DEFAULT_FOOTER_NAV: NavItem[] = [
   {
     id: "home",
     label: DASHBOARD_NAV.homePortal,
@@ -58,10 +67,13 @@ const FOOTER_NAV_ITEMS: NavItem[] = [
 ];
 
 type DashboardSidebarProps = {
-  activeNav?: DashboardNavId;
+  activeNav?: string;
   isOpen?: boolean;
   onClose?: () => void;
   className?: string;
+  mainNavItems?: DashboardSidebarNavItem[];
+  bottomNavItems?: DashboardSidebarNavItem[];
+  showHomeLink?: boolean;
 };
 
 function NavLink({
@@ -69,42 +81,66 @@ function NavLink({
   activeNav,
   onClose,
 }: {
-  item: NavItem;
-  activeNav: DashboardNavId;
+  item: DashboardSidebarNavItem;
+  activeNav: string;
   onClose?: () => void;
 }) {
   const Icon = item.icon;
   const isActive = item.id === activeNav;
+  const isDanger = item.tone === "danger";
+
+  const className = cn(
+    "flex items-center transition-colors duration-150",
+    cairo.className,
+    "font-medium",
+    !isActive && !isDanger && "hover:bg-[rgba(1,11,24,0.04)] hover:text-[#010B18]",
+  );
+
+  const style = {
+    gap: 10,
+    paddingInline: S.navItemPx,
+    paddingBlock: S.navItemPy,
+    borderRadius: S.navItemRadius,
+    fontSize: S.navTextSize,
+    backgroundColor: isActive ? DASHBOARD_THEME.activeNavBg : undefined,
+    color: isDanger
+      ? DASHBOARD_THEME.logoutColor
+      : isActive
+        ? "#010B18"
+        : `rgba(1, 11, 24, ${S.inactiveTextOpacity})`,
+  };
+
+  const iconClass = cn(
+    "size-[18px] shrink-0 stroke-[1.75]",
+    isActive ? "text-[#010B18]" : "text-[rgba(1,11,24,0.4)]",
+  );
+
+  const content = (
+    <>
+      <Icon className={iconClass} aria-hidden="true" />
+      <span lang="ar">{item.label}</span>
+    </>
+  );
+
+  if (item.onClick) {
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          item.onClick?.();
+          onClose?.();
+        }}
+        className={className}
+        style={style}
+      >
+        {content}
+      </button>
+    );
+  }
 
   return (
-    <Link
-      href={item.href}
-      onClick={onClose}
-      className={cn(
-        "flex items-center transition-colors duration-150",
-        cairo.className,
-        "font-medium",
-        !isActive && "hover:bg-[rgba(1,11,24,0.04)] hover:text-[#010B18]",
-      )}
-      style={{
-        gap: 10,
-        paddingInline: S.navItemPx,
-        paddingBlock: S.navItemPy,
-        borderRadius: S.navItemRadius,
-        fontSize: S.navTextSize,
-        backgroundColor: isActive ? DASHBOARD_THEME.activeNavBg : undefined,
-        color: isActive
-          ? "#010B18"
-          : `rgba(1, 11, 24, ${S.inactiveTextOpacity})`,
-      }}
-    >
-      <Icon
-        className={cn(
-          "size-[18px] shrink-0 stroke-[1.75]",
-          isActive ? "text-[#010B18]" : "text-[rgba(1,11,24,0.4)]",
-        )}
-      />
-      <span lang="ar">{item.label}</span>
+    <Link href={item.href ?? "#"} onClick={onClose} className={className} style={style}>
+      {content}
     </Link>
   );
 }
@@ -114,8 +150,33 @@ export function DashboardSidebar({
   isOpen = false,
   onClose,
   className,
+  mainNavItems,
+  bottomNavItems,
+  showHomeLink = true,
 }: DashboardSidebarProps) {
   const logoutMutation = useDashboardLogout();
+
+  const mainItems: DashboardSidebarNavItem[] =
+    mainNavItems ??
+    DEFAULT_MAIN_NAV.map((item) => ({
+      id: item.id,
+      label: item.label,
+      href: item.href,
+      icon: item.icon,
+    }));
+
+  const bottomItems: DashboardSidebarNavItem[] = bottomNavItems ?? [];
+
+  const footerHomeItems: DashboardSidebarNavItem[] = showHomeLink
+    ? DEFAULT_FOOTER_NAV.map((item) => ({
+        id: item.id,
+        label: item.label,
+        href: item.href,
+        icon: item.icon,
+      }))
+    : [];
+
+  const showBuiltInLogout = !bottomNavItems;
 
   return (
     <>
@@ -201,58 +262,56 @@ export function DashboardSidebar({
           </div>
 
           <nav
-            className="flex flex-col"
+            className="flex flex-1 flex-col"
             style={{ marginTop: S.navTopGap, gap: S.navItemGap }}
             aria-label="Dashboard navigation"
           >
-            {MAIN_NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item.id}
-                item={item}
-                activeNav={activeNav}
-                onClose={onClose}
-              />
+            {mainItems.map((item) => (
+              <NavLink key={item.id} item={item} activeNav={activeNav} onClose={onClose} />
             ))}
 
-            {FOOTER_NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item.id}
-                item={item}
-                activeNav={activeNav}
-                onClose={onClose}
-              />
+            {footerHomeItems.map((item) => (
+              <NavLink key={item.id} item={item} activeNav={activeNav} onClose={onClose} />
             ))}
 
-            <div
-              className="my-1 h-px w-full"
-              style={{ backgroundColor: "rgba(1, 11, 24, 0.08)" }}
-              aria-hidden="true"
-            />
-
-            <button
-              type="button"
-              onClick={() => logoutMutation.mutate()}
-              disabled={logoutMutation.isPending}
-              className={cn(
-                "flex items-center transition-opacity hover:opacity-80 disabled:opacity-50",
-                cairo.className,
-                "font-medium",
-              )}
-              style={{
-                gap: 8,
-                paddingInline: S.navItemPx,
-                paddingBlock: 8,
-                fontSize: S.logoutTextSize,
-                color: DASHBOARD_THEME.logoutColor,
-              }}
-            >
-              <LogOut
-                className="stroke-[1.75]"
-                style={{ width: 16, height: 16 }}
+            {bottomItems.length > 0 || showBuiltInLogout ? (
+              <div
+                className="my-1 h-px w-full"
+                style={{ backgroundColor: "rgba(1, 11, 24, 0.08)" }}
                 aria-hidden="true"
               />
-              <span lang="ar">{DASHBOARD_NAV.logout}</span>
-            </button>
+            ) : null}
+
+            {bottomItems.map((item) => (
+              <NavLink key={item.id} item={item} activeNav={activeNav} onClose={onClose} />
+            ))}
+
+            {showBuiltInLogout ? (
+              <button
+                type="button"
+                onClick={() => logoutMutation.mutate()}
+                disabled={logoutMutation.isPending}
+                className={cn(
+                  "flex items-center transition-opacity hover:opacity-80 disabled:opacity-50",
+                  cairo.className,
+                  "font-medium",
+                )}
+                style={{
+                  gap: 8,
+                  paddingInline: S.navItemPx,
+                  paddingBlock: 8,
+                  fontSize: S.logoutTextSize,
+                  color: DASHBOARD_THEME.logoutColor,
+                }}
+              >
+                <LogOut
+                  className="stroke-[1.75]"
+                  style={{ width: 16, height: 16 }}
+                  aria-hidden="true"
+                />
+                <span lang="ar">{DASHBOARD_NAV.logout}</span>
+              </button>
+            ) : null}
           </nav>
         </div>
       </aside>

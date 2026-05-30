@@ -8,6 +8,11 @@ export const ROUTES = {
   MY_PROJECTS: "/dashboard/my-projects",
   PROJECT_SUBMIT: "/submit-project",
   SETTINGS: "/dashboard/settings",
+  ADMIN_DASHBOARD: "/admin/dashboard",
+  ADMIN_PROJECTS: "/admin/projects",
+  ADMIN_NOTIFICATIONS: "/admin/notifications",
+  ADMIN_SETTINGS: "/admin/settings",
+  adminProjectDetails: (id: string | number) => `/admin/projects/${id}`,
   projectDetails: (id: string | number) => `/dashboard/projects/${id}`,
 } as const;
 

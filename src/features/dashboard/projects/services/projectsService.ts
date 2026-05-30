@@ -5,9 +5,34 @@ import {
   mapProjectsListResponse,
 } from "../mappers/project.mapper";
 import { parseProjectId } from "../hooks/project.errors";
+import type { ApiProjectDetail } from "../types/project-api.types";
 import type { SubmitTeamMemberPayload } from "../types/project-api.types";
 import type { ProjectDetail, ProjectListItem } from "../types/project.types";
 import { ProjectsApiError } from "../types/project.types";
+
+function logProjectMediaDebug(raw: ApiProjectDetail, project: ProjectDetail): void {
+  if (process.env.NODE_ENV !== "development") return;
+
+  console.group(`[project-media] GET /api/project/${raw.id}/`);
+  (raw.media ?? []).forEach((item) => {
+    console.log("MEDIA ITEM", item);
+    console.log("MEDIA FILE", item.file);
+    console.log("MEDIA URL", item.url);
+  });
+  console.log(
+    "mapped media URLs:",
+    project.media.map((item) => ({
+      id: item.id,
+      typeName: item.typeName,
+      fileUrl: item.fileUrl,
+      url: item.url,
+      renderSrc: item.fileUrl || item.url,
+      isImage: item.isImage,
+      isVideo: item.isVideo,
+    })),
+  );
+  console.groupEnd();
+}
 
 export type ProjectsListResult = {
   count: number;
@@ -39,7 +64,11 @@ export const projectsService = {
     });
   },
 
-  async getProjectById(id: string | number): Promise<ProjectDetail> {
+  /**
+   * Fetch project detail from `GET /api/project/{id}/` and map media URLs.
+   * Shared by user dashboard and admin review — no ownership check.
+   */
+  async fetchProjectDetailFromApi(id: string | number): Promise<ProjectDetail> {
     const parsedId = parseProjectId(id);
 
     if (!parsedId) {
@@ -48,15 +77,19 @@ export const projectsService = {
 
     const response = await projectsApi.getProjectById(parsedId);
 
-    let project: ProjectDetail;
-
     try {
-      project = mapApiProjectDetail(response);
+      const project = mapApiProjectDetail(response);
+      logProjectMediaDebug(response, project);
+      return project;
     } catch {
       throw new ProjectsApiError(
         "تعذر قراءة بيانات المشروع من الخادم. يرجى المحاولة لاحقًا.",
       );
     }
+  },
+
+  async getProjectById(id: string | number): Promise<ProjectDetail> {
+    const project = await this.fetchProjectDetailFromApi(id);
 
     const rawUserId = useAuthStore.getState().user?.id;
     const userId =

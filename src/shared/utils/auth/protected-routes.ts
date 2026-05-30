@@ -8,6 +8,7 @@ export const PROTECTED_ROUTE_PREFIXES = [
   ROUTES.SUBMIT_PROJECT,
   "/dashboard/projects",
   "/projects",
+  "/admin",
 ] as const;
 
 export function isProtectedPath(pathname: string): boolean {

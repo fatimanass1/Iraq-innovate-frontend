@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { Bell, ChevronRight, Menu, Search } from "lucide-react";
 import { cn } from "@/shared/utils/utils";
 import { DASHBOARD_HEADER } from "../constants/dashboard-content";
@@ -15,19 +15,28 @@ export type DashboardTopNavbarProps = {
   searchValue: string;
   onSearchChange: (value: string) => void;
   onMenuClick?: () => void;
+  onNotificationsClick?: () => void;
+  onProfileClick?: () => void;
+  profileMenu?: ReactNode;
   titleAr?: string;
   titleEn?: string;
+  descriptionAr?: string;
+  searchPlaceholder?: string;
+  showSearch?: boolean;
+  showNotifications?: boolean;
   className?: string;
 };
 
 function NavbarSearch({
   value,
   onChange,
+  placeholder,
   className,
   style,
 }: {
   value: string;
   onChange: (value: string) => void;
+  placeholder?: string;
   className?: string;
   style?: CSSProperties;
 }) {
@@ -41,7 +50,7 @@ function NavbarSearch({
       />
       <input
         type="search"
-        placeholder={DASHBOARD_HEADER.searchPlaceholder}
+        placeholder={placeholder ?? DASHBOARD_HEADER.searchPlaceholder}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         className={cn(
@@ -64,15 +73,17 @@ function NavbarSearch({
 function NavbarTitle({
   titleAr,
   titleEn,
+  descriptionAr,
   className,
 }: {
   titleAr: string;
   titleEn: string;
+  descriptionAr?: string;
   className?: string;
 }) {
   return (
-    <div className={cn("shrink-0 text-start", className)}>
-      <div className="flex items-center gap-1" dir="rtl">
+    <div className={cn("shrink-0 text-end", className)}>
+      <div className="flex items-center justify-end gap-1" dir="rtl">
         <ChevronRight
           className="shrink-0 stroke-[1.75]"
           style={{
@@ -83,23 +94,32 @@ function NavbarTitle({
           aria-hidden="true"
         />
         <h1
-          className={cn(cairo.className, "font-bold leading-none text-[#010B18]")}
-          style={{ fontSize: N.titleSize }}
+          className={cn(cairo.className, "font-semibold leading-8 text-[#010B18]")}
+          style={{ fontSize: descriptionAr ? 24 : N.titleSize, letterSpacing: descriptionAr ? "-0.025em" : undefined }}
           lang="ar"
         >
           {titleAr}
         </h1>
       </div>
-      <p
-        className={cn(outfit.className, "font-medium leading-none")}
-        style={{
-          marginTop: N.titleLineGap,
-          fontSize: N.titleSubSize,
-          color: `rgba(1, 11, 24, ${N.titleSubOpacity})`,
-        }}
-      >
-        {titleEn}
-      </p>
+      {descriptionAr ? (
+        <p
+          className={cn(cairo.className, "mt-1 font-normal leading-5")}
+          style={{ fontSize: 14, color: "#70706B" }}
+          lang="ar"
+        >
+          {descriptionAr}
+        </p>
+      ) : (
+        <p
+          className={cn(outfit.className, "mt-1 text-start font-medium leading-none")}
+          style={{
+            fontSize: N.titleSubSize,
+            color: `rgba(1, 11, 24, ${N.titleSubOpacity})`,
+          }}
+        >
+          {titleEn}
+        </p>
+      )}
     </div>
   );
 }
@@ -109,13 +129,23 @@ function NavbarActions({
   unreadNotifications,
   searchValue,
   onSearchChange,
+  searchPlaceholder,
   showSearch = true,
+  showNotifications = false,
+  onNotificationsClick,
+  onProfileClick,
+  profileMenu,
 }: {
   user: DashboardUser;
   unreadNotifications: number;
   searchValue: string;
   onSearchChange: (value: string) => void;
+  searchPlaceholder?: string;
   showSearch?: boolean;
+  showNotifications?: boolean;
+  onNotificationsClick?: () => void;
+  onProfileClick?: () => void;
+  profileMenu?: ReactNode;
 }) {
   return (
     <div
@@ -123,77 +153,89 @@ function NavbarActions({
       dir="ltr"
       style={{ gap: N.actionsGap }}
     >
-      <div className="flex items-center" style={{ gap: N.profileGap }}>
-        <div
-          className={cn(
-            outfit.className,
-            "flex shrink-0 items-center justify-center rounded-full font-bold text-[#010B18]",
-          )}
-          style={{
-            width: N.avatarSize,
-            height: N.avatarSize,
-            fontSize: N.avatarFontSize,
-            backgroundColor: N.avatarBg,
-          }}
-          aria-hidden="true"
+      <div className="relative">
+        <button
+          type="button"
+          onClick={onProfileClick}
+          className="flex items-center"
+          style={{ gap: N.profileGap }}
+          aria-expanded={Boolean(profileMenu)}
         >
-          {user.initials}
-        </div>
-        <div className="hidden text-start sm:block">
-          <p
-            className={cn(outfit.className, "font-semibold leading-tight text-[#010B18]")}
-            style={{ fontSize: N.nameSize }}
-          >
-            {user.name}
-          </p>
-          <p
-            className={cn(outfit.className, "font-medium leading-tight")}
-            style={{
-              fontSize: N.orgSize,
-              color: `rgba(1, 11, 24, ${N.orgOpacity})`,
-            }}
-          >
-            {user.organization}
-          </p>
-        </div>
-      </div>
-
-      <button
-        type="button"
-        className="relative flex shrink-0 items-center justify-center rounded-full transition hover:bg-[rgba(1,11,24,0.06)]"
-        style={{
-          width: N.bellButtonSize,
-          height: N.bellButtonSize,
-          backgroundColor: N.bellBg,
-        }}
-        aria-label="Notifications"
-      >
-        <Bell
-          className="stroke-[1.75] text-[rgba(1,11,24,0.45)]"
-          style={{ width: N.bellSize, height: N.bellSize }}
-        />
-        {unreadNotifications > 0 ? (
-          <span
+          <div
             className={cn(
               outfit.className,
-              "absolute -right-0.5 -top-0.5 flex items-center justify-center rounded-full font-bold text-[#010B18]",
+              "flex shrink-0 items-center justify-center rounded-full font-bold text-[#010B18]",
             )}
             style={{
-              width: N.badgeSize,
-              height: N.badgeSize,
-              fontSize: N.badgeFontSize,
-              backgroundColor: DASHBOARD_THEME.primaryGreen,
+              width: N.avatarSize,
+              height: N.avatarSize,
+              fontSize: N.avatarFontSize,
+              backgroundColor: N.avatarBg,
             }}
           >
-            {unreadNotifications}
-          </span>
-        ) : null}
-      </button>
+            {user.initials}
+          </div>
+          <div className="hidden text-start sm:block">
+            <p
+              className={cn(outfit.className, "font-semibold leading-tight text-[#010B18]")}
+              style={{ fontSize: N.nameSize }}
+            >
+              {user.name}
+            </p>
+            <p
+              className={cn(outfit.className, "font-medium leading-tight")}
+              style={{
+                fontSize: N.orgSize,
+                color: `rgba(1, 11, 24, ${N.orgOpacity})`,
+              }}
+            >
+              {user.organization}
+            </p>
+          </div>
+        </button>
+        {profileMenu}
+      </div>
+
+      {showNotifications ? (
+        <button
+          type="button"
+          onClick={onNotificationsClick}
+          className="relative flex shrink-0 items-center justify-center rounded-full transition hover:bg-[rgba(1,11,24,0.06)]"
+          style={{
+            width: N.bellButtonSize,
+            height: N.bellButtonSize,
+            backgroundColor: N.bellBg,
+          }}
+          aria-label="Notifications"
+        >
+          <Bell
+            className="stroke-[1.75] text-[rgba(1,11,24,0.45)]"
+            style={{ width: N.bellSize, height: N.bellSize }}
+          />
+          {unreadNotifications > 0 ? (
+            <span
+              className={cn(
+                outfit.className,
+                "absolute -right-0.5 -top-0.5 flex items-center justify-center rounded-full font-bold text-[#010B18]",
+              )}
+              style={{
+                width: N.badgeSize,
+                height: N.badgeSize,
+                fontSize: N.badgeFontSize,
+                backgroundColor: DASHBOARD_THEME.primaryGreen,
+              }}
+            >
+              {unreadNotifications}
+            </span>
+          ) : null}
+        </button>
+      ) : null}
 
       {showSearch ? (
         <NavbarSearch
           value={searchValue}
           onChange={onSearchChange}
+          placeholder={searchPlaceholder}
           className="hidden md:block"
           style={{ width: N.searchWidth }}
         />
@@ -208,19 +250,25 @@ export function DashboardTopNavbar({
   searchValue,
   onSearchChange,
   onMenuClick,
+  onNotificationsClick,
+  onProfileClick,
+  profileMenu,
   titleAr = DASHBOARD_HEADER.titleAr,
   titleEn = DASHBOARD_HEADER.titleEn,
+  descriptionAr,
+  searchPlaceholder,
+  showSearch = true,
+  showNotifications = false,
   className,
 }: DashboardTopNavbarProps) {
   return (
     <header
       className={cn(
-        "w-full min-w-0 shrink-0 overflow-hidden border-b bg-[#F8FAF3] lg:h-[74px]",
+        "w-full min-w-0 shrink-0 overflow-hidden border-b bg-[#F8FAF3] px-4 sm:px-6 lg:h-[74px] lg:px-8",
         className,
       )}
       style={{
         borderColor: N.borderColor,
-        paddingInline: N.paddingX,
       }}
       dir="rtl"
     >
@@ -229,12 +277,18 @@ export function DashboardTopNavbar({
         className="hidden h-full items-center justify-between lg:flex"
         style={{ height: N.height }}
       >
-        <NavbarTitle titleAr={titleAr} titleEn={titleEn} />
+        <NavbarTitle titleAr={titleAr} titleEn={titleEn} descriptionAr={descriptionAr} />
         <NavbarActions
           user={user}
           unreadNotifications={unreadNotifications}
           searchValue={searchValue}
           onSearchChange={onSearchChange}
+          searchPlaceholder={searchPlaceholder}
+          showSearch={showSearch}
+          showNotifications={showNotifications}
+          onNotificationsClick={onNotificationsClick}
+          onProfileClick={onProfileClick}
+          profileMenu={profileMenu}
         />
       </div>
 
@@ -250,22 +304,35 @@ export function DashboardTopNavbar({
             <Menu className="size-5 stroke-[1.75]" />
           </button>
 
-          <NavbarTitle titleAr={titleAr} titleEn={titleEn} className="min-w-0 flex-1" />
+          <NavbarTitle
+            titleAr={titleAr}
+            titleEn={titleEn}
+            descriptionAr={descriptionAr}
+            className="min-w-0 flex-1"
+          />
 
           <NavbarActions
             user={user}
             unreadNotifications={unreadNotifications}
             searchValue={searchValue}
             onSearchChange={onSearchChange}
+            searchPlaceholder={searchPlaceholder}
             showSearch={false}
+            showNotifications={showNotifications}
+            onNotificationsClick={onNotificationsClick}
+            onProfileClick={onProfileClick}
+            profileMenu={profileMenu}
           />
         </div>
 
-        <NavbarSearch
-          value={searchValue}
-          onChange={onSearchChange}
-          className="w-full md:hidden"
-        />
+        {showSearch ? (
+          <NavbarSearch
+            value={searchValue}
+            onChange={onSearchChange}
+            placeholder={searchPlaceholder}
+            className="w-full md:hidden"
+          />
+        ) : null}
       </div>
     </header>
   );
